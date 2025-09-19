@@ -5,8 +5,17 @@ import { Icon } from "@/components/ui/icon";
 import { InstagramIcon } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from "@/components/ui/link";
+import { useNavigation } from "expo-router";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RotasDeNavegacao } from "@/navigation/types";
 
-export default function Login() {
+
+type NavigationProps = StackNavigationProp<RotasDeNavegacao, 'login'>;
+
+export default function Initial() {
+
+    const navigation = useNavigation<NavigationProps>();
+
     return (
         <LinearGradient
             colors={['#FF6B00', '#fb923c']}
@@ -24,6 +33,7 @@ export default function Login() {
                 </View>
                 <View className="flex gap-5">
                     <Button
+                        onPress={navigation.navigate('login')}
                         className="rounded-3xl bg-white"
                         variant="solid" size="xl" action="primary">
                         <ButtonText className="color-black">Entrar</ButtonText>
