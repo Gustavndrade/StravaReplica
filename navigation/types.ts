@@ -1,4 +1,4 @@
-export type RotasDeNavegacao = {
-  index: undefined;
-  login: undefined;
-};
+// export type RotasDeNavegacao = {
+//   index: undefined;
+//   login: undefined;
+// };

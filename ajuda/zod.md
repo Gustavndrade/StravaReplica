@@ -3,8 +3,6 @@
 ## O que é o Zod?
 O Zod é uma biblioteca de validação e tipagem para JavaScript/TypeScript. Ele garante que os dados recebidos estão no formato esperado e se integra com o TypeScript, permitindo gerar tipos automaticamente.
 
-## Instalação
-Execute o comando:
 
 # Instalação
 
