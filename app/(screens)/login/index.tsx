@@ -17,8 +17,8 @@ export default function login() {
 
         <LinearGradient className="flex-1"
             colors={['#FF6B00', '#fb923c']}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 0 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 0 }}
         >
 
             <View className="flex w-full h-[30%] justify-center ml-4">
@@ -44,7 +44,6 @@ export default function login() {
                                 variant="underlined"
                                 className="bg-slate-10 pl-2 rounded-lg ">
                                 <InputField
-                                    secureTextEntry
                                     onChangeText={onChange}
                                     value={value}
                                     placeholder="exemplouser@gmail.com"

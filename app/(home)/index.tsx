@@ -15,8 +15,8 @@ export default function Initial() {
     return (
         <LinearGradient
             colors={['#FF6B00', '#fb923c']}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 0 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 0 }}
             className="flex-1 items-center justify-center gap-3"
         >
             <View className="flex mb-10">
