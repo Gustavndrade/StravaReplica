@@ -1,14 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as Location from "expo-location";
 
+const timerRef = useRef<number | null>(null);
+
 export default function LocationWatcher() {
   const [location, setLocation] = useState<
     { latitude: number; longitude: number }[]
   >([]);
-  const [start, setStart] = useState<boolean>(false);
-  const startRef = useRef(start); // ref que sempre aponta para o valor mais atual
 
-  // Mantém o valor da ref sincronizado com o state
+  const [start, setStart] = useState<boolean>(false);
+  const startRef = useRef(start);
+
+  const [tempoDeCorrida, setTempoDeCorrida] =useState<number>(0);
+
+  useEffect(() => {
+    if(startRef){
+      timerRef.current = setInterval(() => {
+        setTempoDeCorrida(prev => prev + 1);
+      },1000);
+    } else {
+        if(timerRef.current){
+           clearInterval(timerRef.current);
+           timerRef.current = null;
+        }
+    }
+
+    return()=>{
+      if(timerRef.current) clearInterval(timerRef.current);
+    };
+
+  }, [start]);
+
+  
   useEffect(() => {
     startRef.current = start;
   }, [start]);
@@ -19,7 +42,7 @@ export default function LocationWatcher() {
     const comecarLocal = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        console.log("Permissão negada para acessar localização");
+        console.log("Permissão negada");
         return;
       }
 

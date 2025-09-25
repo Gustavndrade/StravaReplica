@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
 import { Controller } from "react-hook-form";
 import { Input, InputField } from "@/components/ui/input";
-import { useLogin } from "../../use-login";
+import { useLogin } from "./use-login";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Link, LinkText } from "@/components/ui/link";
 import { useRouter } from "expo-router";

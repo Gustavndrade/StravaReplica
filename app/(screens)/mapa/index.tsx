@@ -1,59 +1,69 @@
-import React from 'react';
 import MapView, { Polyline } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
 import { Button, ButtonText } from '@/components/ui/button';
 import { useRouter } from 'expo-router';
 import LocationWatcher from './use_mapa';
+import { twMerge } from 'tailwind-merge';
 
 export default function App() {
   const router = useRouter();
   const { location, setStart, start } = LocationWatcher();
+  const opaco = twMerge(
+    "bg-[#FFA700]",
+    start ? "opacity-50" : " "
+  )
 
   return (
-    <View style={styles.container}>
-      <MapView
-        showsUserLocation={true}
-        initialRegion={{
-          latitude: location[location.length -1]?.latitude || -20.209094,
-          longitude: location[location.length -1]?.longitude || -50.9295278,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
-        }}
+      <View
+        className='flex-1 justify-center p-4 pt-7 bg-slate-100'>
+        <View className='mb-0 overflow-hidden rounded-lg shadow-sm h-[650px]'>
+          <MapView
+            showsUserLocation={true}
+            initialRegion={{
+              latitude: location[location.length - 1]?.latitude || -20.209094,
+              longitude: location[location.length - 1]?.longitude || -50.9295278,
+              latitudeDelta: 0.002,
+              longitudeDelta: 0.01,
+            }}
+            style={styles.map}>
+            <Polyline
+              coordinates={location}
+              strokeColor="#FF6B00"
+              strokeColors={[
+                '#FF6B00'
+              ]}
+              strokeWidth={10}
+            />
+          </MapView>
+        </View>
 
-        style={styles.map}>
-<Polyline
-    coordinates={location}
-    strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-    strokeColors={[
-      '#FF6B00'
-    ]}
-    strokeWidth={6}
-  />
-        </MapView>
-      <Button
-        onPress={() => router.push('/')}
-      >
-        <ButtonText>Sair</ButtonText>
-      </Button>
+      <View className='flex gap-4 flex-row p-5 justify-center'>
         <Button
-        onPress={()=> {setStart(!start)}
-        }
+          disabled={start}
+          className={opaco}
+          onPress={() => {
+            router.push('/')
+          }}
+        >
+          <ButtonText>Sair</ButtonText>
+        </Button>
+        <Button
+          className='bg-[#FFA700]'
+          onPress={() => { setStart(!start) }
+          }
         >
           <ButtonText>
             {start ? "Parar" : "Iniciar"}
           </ButtonText>
         </Button>
-    </View>
+      </View>
+
+      </View>
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
   map: {
-    width: '90%',
-    height: '90%',
+    width: '100%',
+    height: '100%',
   },
 });
