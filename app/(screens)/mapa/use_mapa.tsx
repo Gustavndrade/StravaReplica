@@ -1,37 +1,44 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as Location from "expo-location";
 
-const timerRef = useRef<number | null>(null);
 
 export default function LocationWatcher() {
   const [location, setLocation] = useState<
-    { latitude: number; longitude: number }[]
+  { latitude: number; longitude: number }[]
   >([]);
+
+  //const [timer, setTimer] = useState<number>(0);
+  const timerRef = useRef<number | null>(null);
 
   const [start, setStart] = useState<boolean>(false);
   const startRef = useRef(start);
 
-  const [tempoDeCorrida, setTempoDeCorrida] =useState<number>(0);
+  const [tempoDeCorrida, setTempoDeCorrida] = useState<number>(0);
+  const ultimoTempoRef = useRef<number>(0);
+
 
   useEffect(() => {
-    if(startRef){
+    setTempoDeCorrida(0);
+
+    if (start) {
       timerRef.current = setInterval(() => {
-        setTempoDeCorrida(prev => prev + 1);
-      },1000);
-    } else {
-        if(timerRef.current){
-           clearInterval(timerRef.current);
-           timerRef.current = null;
-        }
+        setTempoDeCorrida((prev) => {
+          ultimoTempoRef.current = prev + 1;
+          return prev + 1
+        });
+      }, 1000);
     }
 
-    return()=>{
-      if(timerRef.current) clearInterval(timerRef.current);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     };
 
   }, [start]);
 
-  
+
   useEffect(() => {
     startRef.current = start;
   }, [start]);
@@ -76,12 +83,19 @@ export default function LocationWatcher() {
   }, []);
 
   useEffect(() => {
-    console.log("Localizações:", location);
-  }, [location]);
+    console.log('tempoDeCorrida:', tempoDeCorrida);
+  }, [tempoDeCorrida]);
+
+
+  useEffect(() => {
+    console.log("ultimoTempo", ultimoTempoRef);
+  });
 
   return {
     location,
     setStart,
     start,
+    tempoDeCorrida,
+    ultimoTempoRef
   };
 }
