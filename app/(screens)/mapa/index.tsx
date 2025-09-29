@@ -4,6 +4,20 @@ import { Button, ButtonText } from '@/components/ui/button';
 import { useRouter } from 'expo-router';
 import LocationWatcher from './use_mapa';
 import { twMerge } from 'tailwind-merge';
+import { Pause, Play } from 'lucide-react-native';
+
+  const play = () => {
+    return(
+      <Play />
+    );
+  }
+
+  const pause = () => {
+  return (
+    <Pause />
+  );
+};
+
 
 export default function App() {
   const router = useRouter();
@@ -12,43 +26,52 @@ export default function App() {
     location,
     setStart,
     start,
-    ultimoTempoRef,
     tempoDeCorrida
   } = LocationWatcher();
 
-  const opaco = twMerge(
-    "bg-[#FFA700]",
+  const botaoSair = twMerge(
+    "bg-[#FFA700] rounded-full w-[30%]",
     start ? "opacity-50" : " "
   )
 
   return (
     <View
-      className='flex-1 justify-center p-4 pt-7 bg-slate-100'>
-      <View className='mb-0 overflow-hidden rounded-lg shadow-sm h-[650px]'>
-        <MapView
-          showsUserLocation={true}
-          initialRegion={{
-            latitude: location[location.length - 1]?.latitude || -20.209094,
-            longitude: location[location.length - 1]?.longitude || -50.9295278,
-            latitudeDelta: 0.002,
-            longitudeDelta: 0.01,
-          }}
-          style={styles.map}>
-          <Polyline
-            coordinates={location}
-            strokeColor="#FF6B00"
-            strokeColors={[
-              '#FF6B00'
-            ]}
-            strokeWidth={10}
-          />
-        </MapView>
+      className='flex-1  relative bg-green-500 h-full items-center'>
+
+      <MapView
+        showsUserLocation={true}
+        initialRegion={{
+          latitude: location[location.length - 1]?.latitude || -20.209094,
+          longitude: location[location.length - 1]?.longitude || -50.9295278,
+          latitudeDelta: 0.001,
+          longitudeDelta: 0.001,
+        }}
+        style={styles.map}>
+        <Polyline
+          coordinates={location}
+          strokeColor="#FF6B00"
+          strokeColors={[
+            '#FF6B00'
+          ]}
+          strokeWidth={10}
+        />
+      </MapView>
+
+      <View className='z-1 absolute bottom-[25%] bg-black p-3 pt-7 rounded-md items-center justify-center w-[95%]'>
+        <Text
+          className='color-white'
+        >{tempoDeCorrida}</Text>
+        <Text
+          className='color-white text-xs'
+        >Tempo de Corrida</Text>
       </View>
 
-      <View className='flex gap-4 flex-row p-5 justify-center'>
+      <View
+        className='z-2 absolute bg-gray-700 bottom-0 flex-row w-full h-[18%] flex items-center rounded-3xl justify-center gap-4'
+      >
         <Button
           disabled={start}
-          className={opaco}
+          className={botaoSair}
           onPress={() => {
             router.push('/')
           }}
@@ -57,22 +80,16 @@ export default function App() {
         </Button>
 
         <Button
-          className='bg-[#FFA700]'
+          className='bg-[#FFA700] rounded-full w-[30%]'
           onPress={() => { setStart(!start) }
           }
         >
+          {start ? <Pause size={18} color="white" /> : <Play size={18} color="white" />}
           <ButtonText>
             {start ? "Parar" : "Iniciar"}
           </ButtonText>
         </Button>
-
       </View>
-
-          //A intenção é usar o ultimoTempoRef, mas ele renderiza como "[object Object]"
-        <Button>
-          <Text className='color-white'>Tempo de Corrida: {`${ultimoTempoRef}`}</Text>
-        </Button>
-
     </View>
   );
 }

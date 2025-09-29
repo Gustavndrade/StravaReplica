@@ -7,34 +7,21 @@ export default function LocationWatcher() {
   { latitude: number; longitude: number }[]
   >([]);
 
-  //const [timer, setTimer] = useState<number>(0);
-  const timerRef = useRef<number | null>(null);
-
   const [start, setStart] = useState<boolean>(false);
   const startRef = useRef(start);
 
   const [tempoDeCorrida, setTempoDeCorrida] = useState<number>(0);
-  const ultimoTempoRef = useRef<number>(0);
 
-
-  useEffect(() => {
-    setTempoDeCorrida(0);
-
+  useEffect(() => { 
+    let interval: any
     if (start) {
-      timerRef.current = setInterval(() => {
-        setTempoDeCorrida((prev) => {
-          ultimoTempoRef.current = prev + 1;
-          return prev + 1
-        });
+       setTempoDeCorrida(0);
+       interval = setInterval(() => {
+        setTempoDeCorrida((prev) => prev + 1);
       }, 1000);
     }
 
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
-    };
+    return () => clearInterval(interval)
 
   }, [start]);
 
@@ -84,18 +71,18 @@ export default function LocationWatcher() {
 
   useEffect(() => {
     console.log('tempoDeCorrida:', tempoDeCorrida);
-  }, [tempoDeCorrida]);
+  }, [tempoDeCorrida]); 
+  
+  useEffect(()=>{
+    console.log('localizacao: ', location)
+  },[location]);
 
-
-  useEffect(() => {
-    console.log("ultimoTempo", ultimoTempoRef);
-  });
 
   return {
     location,
     setStart,
     start,
     tempoDeCorrida,
-    ultimoTempoRef
+    setTempoDeCorrida
   };
 }
