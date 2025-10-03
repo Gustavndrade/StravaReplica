@@ -15,7 +15,8 @@ export default function login() {
     const { form } = useLogin();
     return (
 
-        <LinearGradient className="flex-1"
+        <LinearGradient 
+            className="flex-1"
             colors={['#FF6B00', '#fb923c']}
             start={{ x: 0, y: 0 }}
             end={{ x: 2, y: 0 }}
